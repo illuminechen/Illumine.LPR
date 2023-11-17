@@ -473,6 +473,13 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+    <None Include="Blob\x64\EnabledLog.flg" />
+    <None Include="Blob\x64\Model1\NetSDK.lib" />
+    <None Include="Blob\x86\CP5200.lib" />
+    <None Include="Blob\x86\Debug.flg" />
+    <None Include="Blob\x86\EnabledLog.flg" />
+    <None Include="Blob\x86\make.bat" />
+    <None Include="Blob\x86\Model1\NetSDK.lib" />
     <None Include="FodyWeavers.xsd">
       <SubType>Designer</SubType>
     </None>
@@ -483,6 +490,130 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Blob\x64\ICE\avutil-52.dll" />
+    <Content Include="Blob\x64\ICE\draw.dll" />
+    <Content Include="Blob\x64\ICE\hi_h264dec_w64.dll" />
+    <Content Include="Blob\x64\ICE\ice_ipcsdk.dll" />
+    <Content Include="Blob\x64\ICE\ice_p2p.dll" />
+    <Content Include="Blob\x64\ICE\Packet.dll" />
+    <Content Include="Blob\x64\ICE\swscale-2.dll" />
+    <Content Include="Blob\x64\ICE\wpcap.dll" />
+    <Content Include="Blob\x64\ICE\zlibwapi.dll" />
+    <Content Include="Blob\x64\ICE_eng\avutil-52.dll" />
+    <Content Include="Blob\x64\ICE_eng\draw.dll" />
+    <Content Include="Blob\x64\ICE_eng\hi_h264dec_w64.dll" />
+    <Content Include="Blob\x64\ICE_eng\ice_decode.dll" />
+    <Content Include="Blob\x64\ICE_eng\ice_ipcsdk.dll" />
+    <Content Include="Blob\x64\ICE_eng\ice_p2p.dll" />
+    <Content Include="Blob\x64\ICE_eng\Packet.dll" />
+    <Content Include="Blob\x64\ICE_eng\swscale-2.dll" />
+    <Content Include="Blob\x64\ICE_eng\wpcap.dll" />
+    <Content Include="Blob\x64\ICE_eng\zlibwapi.dll" />
+    <Content Include="Blob\x64\Microsoft.Bcl.AsyncInterfaces.dll" />
+    <Resource Include="Blob\x64\Microsoft.Bcl.AsyncInterfaces.xml" />
+    <Content Include="Blob\x64\Microsoft.Xaml.Behaviors.dll" />
+    <Content Include="Blob\x64\Microsoft.Xaml.Behaviors.pdb" />
+    <Resource Include="Blob\x64\Microsoft.Xaml.Behaviors.xml" />
+    <Content Include="Blob\x64\Model1\CommModule.dll" />
+    <Content Include="Blob\x64\Model1\CSharpDemo.exe" />
+    <Content Include="Blob\x64\Model1\DecodeSdk.dll" />
+    <Content Include="Blob\x64\Model1\Demo.exe" />
+    <Content Include="Blob\x64\Model1\DevSearchHelper.dll" />
+    <Content Include="Blob\x64\Model1\Log.dll" />
+    <Content Include="Blob\x64\Model1\NetSDK.dll" />
+    <Content Include="Blob\x64\Model1\PlaySdk.dll" />
+    <Content Include="Blob\x64\Model1\RtspRecvSdk.dll" />
+    <Content Include="Blob\x64\Model1\Talk.dll" />
+    <Content Include="Blob\x64\Model1\TestSdk.exe" />
+    <Content Include="Blob\x64\Model1\WinPcap.exe" />
+    <Content Include="Blob\x64\NModbus.dll" />
+    <Resource Include="Blob\x64\NModbus.xml" />
+    <Content Include="Blob\x64\System.Buffers.dll" />
+    <Resource Include="Blob\x64\System.Buffers.xml" />
+    <Content Include="Blob\x64\System.Data.SQLite.dll" />
+    <Resource Include="Blob\x64\System.Data.SQLite.xml" />
+    <Content Include="Blob\x64\System.Memory.dll" />
+    <Resource Include="Blob\x64\System.Memory.xml" />
+    <Content Include="Blob\x64\System.Net.Http.Json.dll" />
+    <Resource Include="Blob\x64\System.Net.Http.Json.xml" />
+    <Content Include="Blob\x64\System.Numerics.Vectors.dll" />
+    <Resource Include="Blob\x64\System.Numerics.Vectors.xml" />
+    <Content Include="Blob\x64\System.Runtime.CompilerServices.Unsafe.dll" />
+    <Resource Include="Blob\x64\System.Runtime.CompilerServices.Unsafe.xml" />
+    <Content Include="Blob\x64\System.Text.Encodings.Web.dll" />
+    <Resource Include="Blob\x64\System.Text.Encodings.Web.xml" />
+    <Content Include="Blob\x64\System.Text.Json.dll" />
+    <Resource Include="Blob\x64\System.Text.Json.xml" />
+    <Content Include="Blob\x64\System.Threading.Tasks.Extensions.dll" />
+    <Resource Include="Blob\x64\System.Threading.Tasks.Extensions.xml" />
+    <Content Include="Blob\x64\System.ValueTuple.dll" />
+    <Resource Include="Blob\x64\System.ValueTuple.xml" />
+    <Content Include="Blob\x64\x64\SQLite.Interop.dll" />
+    <Content Include="Blob\x64\x86\SQLite.Interop.dll" />
+    <Content Include="Blob\x86\CP5200.dll" />
+    <Content Include="Blob\x86\CP5200API.h" />
+    <Content Include="Blob\x86\ICE\avutil-52.dll" />
+    <Content Include="Blob\x86\ICE\draw.dll" />
+    <Content Include="Blob\x86\ICE\hi_h264dec_w.dll" />
+    <Content Include="Blob\x86\ICE\ice_ipcsdk.dll" />
+    <Content Include="Blob\x86\ICE\ice_p2p.dll" />
+    <Content Include="Blob\x86\ICE\Packet.dll" />
+    <Content Include="Blob\x86\ICE\swscale-2.dll" />
+    <Content Include="Blob\x86\ICE\wpcap.dll" />
+    <Content Include="Blob\x86\ICE\zlibwapi.dll" />
+    <Content Include="Blob\x86\ICE_eng\avutil-52.dll" />
+    <Content Include="Blob\x86\ICE_eng\draw.dll" />
+    <Content Include="Blob\x86\ICE_eng\hi_h264dec_w.dll" />
+    <Content Include="Blob\x86\ICE_eng\ice_decode.dll" />
+    <Content Include="Blob\x86\ICE_eng\ice_ipcsdk.dll" />
+    <Content Include="Blob\x86\ICE_eng\ice_p2p.dll" />
+    <Content Include="Blob\x86\ICE_eng\Packet.dll" />
+    <Content Include="Blob\x86\ICE_eng\swscale-2.dll" />
+    <Content Include="Blob\x86\ICE_eng\wpcap.dll" />
+    <Content Include="Blob\x86\ICE_eng\zlibwapi.dll" />
+    <Content Include="Blob\x86\LafDll.dll" />
+    <Content Include="Blob\x86\Microsoft.Bcl.AsyncInterfaces.dll" />
+    <Resource Include="Blob\x86\Microsoft.Bcl.AsyncInterfaces.xml" />
+    <Content Include="Blob\x86\Microsoft.Xaml.Behaviors.dll" />
+    <Resource Include="Blob\x86\Microsoft.Xaml.Behaviors.xml" />
+    <Content Include="Blob\x86\Model1\CommModule.dll" />
+    <Content Include="Blob\x86\Model1\CSharpDemo.exe" />
+    <Content Include="Blob\x86\Model1\DecodeSdk.dll" />
+    <Content Include="Blob\x86\Model1\Demo.exe" />
+    <Content Include="Blob\x86\Model1\DevSearchHelper.dll" />
+    <Content Include="Blob\x86\Model1\Log.dll" />
+    <Content Include="Blob\x86\Model1\NetSDK.dll" />
+    <Content Include="Blob\x86\Model1\PlaySdk.dll" />
+    <Content Include="Blob\x86\Model1\RtspRecvSdk.dll" />
+    <Content Include="Blob\x86\Model1\Talk.dll" />
+    <Content Include="Blob\x86\Model1\TestSdk.exe" />
+    <Content Include="Blob\x86\Model1\TestSdk_64.exe" />
+    <Content Include="Blob\x86\Model1\WinPcap.exe" />
+    <Content Include="Blob\x86\NModbus.dll" />
+    <Resource Include="Blob\x86\NModbus.xml" />
+    <Resource Include="Blob\x86\Setting.xml" />
+    <Content Include="Blob\x86\System.Buffers.dll" />
+    <Resource Include="Blob\x86\System.Buffers.xml" />
+    <Content Include="Blob\x86\System.Data.SQLite.dll" />
+    <Resource Include="Blob\x86\System.Data.SQLite.xml" />
+    <Content Include="Blob\x86\System.Memory.dll" />
+    <Resource Include="Blob\x86\System.Memory.xml" />
+    <Content Include="Blob\x86\System.Net.Http.Json.dll" />
+    <Resource Include="Blob\x86\System.Net.Http.Json.xml" />
+    <Content Include="Blob\x86\System.Numerics.Vectors.dll" />
+    <Resource Include="Blob\x86\System.Numerics.Vectors.xml" />
+    <Content Include="Blob\x86\System.Runtime.CompilerServices.Unsafe.dll" />
+    <Resource Include="Blob\x86\System.Runtime.CompilerServices.Unsafe.xml" />
+    <Content Include="Blob\x86\System.Text.Encodings.Web.dll" />
+    <Resource Include="Blob\x86\System.Text.Encodings.Web.xml" />
+    <Content Include="Blob\x86\System.Text.Json.dll" />
+    <Resource Include="Blob\x86\System.Text.Json.xml" />
+    <Content Include="Blob\x86\System.Threading.Tasks.Extensions.dll" />
+    <Resource Include="Blob\x86\System.Threading.Tasks.Extensions.xml" />
+    <Content Include="Blob\x86\System.ValueTuple.dll" />
+    <Resource Include="Blob\x86\System.ValueTuple.xml" />
+    <Content Include="Blob\x86\x64\SQLite.Interop.dll" />
+    <Content Include="Blob\x86\x86\SQLite.Interop.dll" />
     <Content Include="FodyWeavers.xml" />
     <Resource Include="icon.ico" />
   </ItemGroup>
@@ -499,7 +630,7 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Blob\" />
+    <Folder Include="Blob\x86\Model1\image\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
