@@ -1,0 +1,303 @@
+<UserControl x:Class="Illumine.LPR.VipListPage"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:local="clr-namespace:Illumine.LPR" 
+             xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+             mc:Ignorable="d"
+             d:DataContext="{x:Static local:VipListPageDesignModel.Instance}"
+             d:DesignWidth="1024" d:DesignHeight="768">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <StackPanel Grid.Row="0" Background="{StaticResource ForegroundWhiteBrush}" Margin="0" Orientation="Horizontal"
+                Height="64">
+            <Grid Width="64" Margin="5">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                <Button Tag="匯入" Foreground="{StaticResource WordGreenBrush}" Style="{StaticResource IconButton}"
+                Content="{StaticResource FontAwesomeImportIcon}" Command="{Binding ImportCommand}"/>
+            </Grid>
+            <Grid Width="64" Margin="5">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                <Button Tag="匯出" Foreground="{StaticResource WordOrangeBrush}" Style="{StaticResource IconButton}"
+                Content="{StaticResource FontAwesomeExportIcon}" Command="{Binding ExportCommand}"/>
+            </Grid>
+            <Grid Width="64" Margin="5">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+                <Button Tag="設定" Foreground="{StaticResource ForegroundDarkBrush}" Style="{StaticResource IconButton}"
+                Content="{StaticResource FontAwesomeCogIcon}" Command="{Binding SettingCommand}"/>
+            </Grid>
+            <Grid Width="64" Margin="5">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                <Button Tag="查詢" Foreground="{StaticResource WordBlueBrush}" Style="{StaticResource IconButton}"
+                        Command="{Binding SearchCommand}"
+                        Content="{StaticResource FontAwesomeSearchIcon}" />
+            </Grid>
+            <Grid Width="64" Margin="5">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                <Button Tag="群組" Foreground="{StaticResource WordRedBrush}" Style="{StaticResource IconButton}"
+                        Command="{Binding GroupCommand}"
+                        Content="{StaticResource FontAwesomeGroupIcon}" />
+            </Grid>
+        </StackPanel>
+        <Grid Grid.Row="1" Visibility="{Binding ShowSearch, Converter={local:BooleanToCollapsedConverter}}">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="AUTO"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="48"/>
+                    <ColumnDefinition Width="48"/>
+                </Grid.ColumnDefinitions>
+                <TextBlock Text="查詢：" FontSize="32"/>
+                <TextBox Grid.Column="1" Name="SearchBox" Text="{Binding SearchText}" FontSize="32"/>
+                <Button Grid.Column="2" FontSize="32" FontWeight="Bold" Content="↑" Command="{Binding PreCommand}"/>
+                <Button Grid.Column="3" FontSize="32" FontWeight="Bold" Content="↓" Command="{Binding NextCommand}"/>
+            </Grid>
+        </Grid>
+        <DataGrid Grid.Row="2"
+                  AutoGenerateColumns="false" 
+                  CanUserAddRows="True"
+                  CanUserDeleteRows="True"
+                  EnableColumnVirtualization="False"
+                  IsEnabled="{Binding Enabled}"
+                  HeadersVisibility="All"
+                  Name="dataGrid"
+                  LoadingRow="dataGrid_LoadingRow"
+                  UnloadingRow="dataGrid_UnloadingRow"
+                  local:DataGridTextSearch.SearchValue="{Binding ElementName=SearchBox, Path=Text, UpdateSourceTrigger=PropertyChanged}"
+                  ItemsSource="{Binding VipList, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                  HorizontalContentAlignment="Center" 
+                  VerticalContentAlignment="Center" ScrollViewer.CanContentScroll="False">
+            <i:Interaction.Behaviors>
+                <local:SearchBehavior SearchPreAction="{Binding SearchPreAction, Mode=OneWayToSource}"/>
+                <local:SearchBehavior SearchNextAction="{Binding SearchNextAction, Mode=OneWayToSource}"/>
+            </i:Interaction.Behaviors>
+            <DataGrid.Resources>
+                <Style TargetType="{x:Type DataGridCell}">
+                    <Setter Property="TextBlock.TextAlignment" Value="Center"/>
+                </Style>
+            </DataGrid.Resources>
+            <DataGrid.RowHeaderStyle>
+                <Style TargetType="{x:Type DataGridRowHeader}">
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding}" Value="{x:Static CollectionView.NewItemPlaceholder}">
+                            <Setter Property="Content" Value=""/>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </DataGrid.RowHeaderStyle>
+            <DataGrid.Columns>
+                <DataGridTextColumn Width="*" Header="編號" IsReadOnly="True" Binding="{Binding Id}">
+                    <DataGridTextColumn.ElementStyle>
+                        <Style TargetType="{x:Type TextBlock}">
+                            <Setter Property="VerticalAlignment" Value="Center"/>
+                        </Style>
+                    </DataGridTextColumn.ElementStyle>
+                </DataGridTextColumn>
+                <DataGridTextColumn Width="2*" Header="車牌號碼" Binding="{Binding PlateNumber, ValidatesOnDataErrors=True}">
+                    <DataGridTextColumn.ElementStyle>
+                        <Style TargetType="{x:Type TextBlock}">
+                            <Setter Property="VerticalAlignment" Value="Center"/>
+                            <Style.Triggers>
+                                <Trigger Property="Validation.HasError" Value="True">
+                                    <Setter Property="FrameworkElement.ToolTip"
+                          Value="{Binding RelativeSource={RelativeSource Self}, Path=(Validation.Errors)[0].ErrorContent}"/>
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </DataGridTextColumn.ElementStyle>
+                </DataGridTextColumn>
+                <DataGridTextColumn Width="2*" Header="名稱" Binding="{Binding Name, ValidatesOnDataErrors=True}">
+                    <DataGridTextColumn.ElementStyle>
+                        <Style TargetType="{x:Type TextBlock}">
+                            <Setter Property="VerticalAlignment" Value="Center"/>
+                            <Style.Triggers>
+                                <Trigger Property="Validation.HasError" Value="True">
+                                    <Setter Property="FrameworkElement.ToolTip"
+                          Value="{Binding RelativeSource={RelativeSource Self}, Path=(Validation.Errors)[0].ErrorContent}"/>
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </DataGridTextColumn.ElementStyle>
+                </DataGridTextColumn>
+                <DataGridTextColumn Width="3*" Header="ETag" Binding="{Binding ETagNumber, ValidatesOnDataErrors=True}">
+                    <DataGridTextColumn.ElementStyle>
+                        <Style TargetType="{x:Type TextBlock}">
+                            <Setter Property="VerticalAlignment" Value="Center"/>
+                            <Style.Triggers>
+                                <Trigger Property="Validation.HasError" Value="True">
+                                    <Setter Property="FrameworkElement.ToolTip"
+                          Value="{Binding RelativeSource={RelativeSource Self}, Path=(Validation.Errors)[0].ErrorContent}"/>
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </DataGridTextColumn.ElementStyle>
+                </DataGridTextColumn>
+
+                <DataGridComboBoxColumn Width="2*" Header="群組" SelectedItemBinding="{Binding Group,Converter={local:GroupIdToDisplayString}}">
+                    <DataGridComboBoxColumn.CellStyle>
+                        <Style TargetType="{x:Type DataGridCell}">
+                            <EventSetter Event="PreviewMouseLeftButtonDown" Handler="DataGridCell_PreviewMouseLeftButtonDown" />
+                            <EventSetter Event="PreviewTextInput" Handler="DataGridCell_PreviewTextInput" />
+                        </Style>
+                    </DataGridComboBoxColumn.CellStyle>
+                    <DataGridComboBoxColumn.EditingElementStyle>
+                        <Style TargetType="{x:Type ComboBox}">
+                            <Setter Property="VerticalAlignment" Value="Stretch"/>
+                            <Setter Property="HorizontalAlignment" Value="Stretch"/>
+                            <Setter Property="VerticalContentAlignment" Value="Center"/>
+                            <Setter Property="HorizontalContentAlignment" Value="Center"/>
+                            <Setter Property="ItemsSource" Value="{Binding Path=DataContext.GroupList, RelativeSource={RelativeSource AncestorType=UserControl},Converter={local:GroupVMToDisplayString}}" />
+                        </Style>
+                    </DataGridComboBoxColumn.EditingElementStyle>
+                    <DataGridComboBoxColumn.ElementStyle>
+                        <Style TargetType="{x:Type ComboBox}">
+                            <Setter Property="VerticalAlignment" Value="Center"/>
+                            <Setter Property="HorizontalAlignment" Value="Center"/>
+                            <Setter Property="ItemsSource" Value="{Binding Path=DataContext.GroupList, RelativeSource={RelativeSource AncestorType=UserControl},Converter={local:GroupVMToDisplayString}}" />
+                        </Style>
+                    </DataGridComboBoxColumn.ElementStyle>
+                </DataGridComboBoxColumn>
+                <DataGridTemplateColumn Width="3*" Header="到期時間">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center" Text="{Binding ExpireTime, ValidatesOnDataErrors=True, StringFormat={}{0:yyyy年MM月dd日}, ConverterCulture=zh-TW}"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                    <DataGridTemplateColumn.CellEditingTemplate>
+                        <DataTemplate>
+                            <DatePicker VerticalAlignment="Center" HorizontalAlignment="Center" SelectedDate="{Binding ExpireTime, StringFormat={}{0:yyyy年MM月dd日}, ConverterCulture=zh-TW}"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellEditingTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Width="10*" Header="有效時段">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Hidden">
+                                <ItemsControl HorizontalAlignment="Center" ScrollViewer.HorizontalScrollBarVisibility="Disabled" ItemsSource="{Binding ValidPeriods}">
+                                    <ItemsControl.ItemsPanel>
+                                        <ItemsPanelTemplate>
+                                            <WrapPanel VerticalAlignment="Center" IsItemsHost="True"/>
+                                        </ItemsPanelTemplate>
+                                    </ItemsControl.ItemsPanel>
+                                    <ItemsControl.ItemTemplate>
+                                        <DataTemplate>
+                                            <StackPanel Margin="5">
+                                                <TextBlock HorizontalAlignment="Center" Text="{Binding Label}"/>
+                                                <CheckBox HorizontalAlignment="Center" IsChecked="{Binding IsChecked}"/>
+                                            </StackPanel>
+                                        </DataTemplate>
+                                    </ItemsControl.ItemTemplate>
+                                </ItemsControl>
+                            </ScrollViewer>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTextColumn Width="3*" Header="描述" Binding="{Binding Description, ValidatesOnDataErrors=True}">
+                    <DataGridTextColumn.ElementStyle>
+                        <Style TargetType="{x:Type TextBlock}">
+                            <Setter Property="VerticalAlignment" Value="Center"/>
+                            <Style.Triggers>
+                                <Trigger Property="Validation.HasError" Value="True">
+                                    <Setter Property="FrameworkElement.ToolTip"
+                          Value="{Binding RelativeSource={RelativeSource Self}, Path=(Validation.Errors)[0].ErrorContent}"/>
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </DataGridTextColumn.ElementStyle>
+                </DataGridTextColumn>
+            </DataGrid.Columns>
+        </DataGrid>
+        <Border Grid.RowSpan="3"
+                Visibility="{Binding ShowGroupEditor, Converter={local:BooleanToVisibilityConverter}}"
+                HorizontalAlignment="Stretch"
+                VerticalAlignment="Stretch"
+                Background="#55000000" 
+                MouseDown="Border_MouseDown"
+                >
+            <DataGrid
+                Width="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=ActualWidth , Converter={local:HalfConverter}}"
+                Height="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=ActualHeight , Converter={local:HalfConverter}}"
+                AutoGenerateColumns="false" 
+                CanUserAddRows="True"
+                CanUserDeleteRows="True"
+                EnableColumnVirtualization="False"
+                HeadersVisibility="All"
+                Name="dataGrid2"
+                HorizontalContentAlignment="Center" 
+                VerticalContentAlignment="Center"       
+                MouseDown="dataGrid2_MouseDown"
+                ItemsSource="{Binding GroupList, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                <DataGrid.Resources>
+                    <Style TargetType="{x:Type DataGridCell}">
+                        <Setter Property="TextBlock.TextAlignment" Value="Center"/>
+                    </Style>
+                </DataGrid.Resources>
+                <DataGrid.RowHeaderStyle>
+                    <Style TargetType="{x:Type DataGridRowHeader}">
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding}" Value="{x:Static CollectionView.NewItemPlaceholder}">
+                                <Setter Property="Content" Value=""/>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </DataGrid.RowHeaderStyle>
+                <DataGrid.Columns>
+                    <DataGridTextColumn Width="*" Header="編號" IsReadOnly="True" Binding="{Binding Id}">
+                        <DataGridTextColumn.ElementStyle>
+                            <Style TargetType="{x:Type TextBlock}">
+                                <Setter Property="VerticalAlignment" Value="Center"/>
+                            </Style>
+                        </DataGridTextColumn.ElementStyle>
+                    </DataGridTextColumn>
+                    <DataGridTextColumn Width="*" Header="群組名稱" Binding="{Binding GroupName,UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}">
+                        <DataGridTextColumn.ElementStyle>
+                            <Style TargetType="{x:Type TextBlock}">
+                                <Setter Property="VerticalAlignment" Value="Center"/>
+                                <Style.Triggers>
+                                    <Trigger Property="Validation.HasError" Value="True">
+                                        <Setter Property="FrameworkElement.ToolTip"
+                        Value="{Binding RelativeSource={RelativeSource Self}, Path=(Validation.Errors)[0].ErrorContent}"/>
+                                    </Trigger>
+                                </Style.Triggers>
+                            </Style>
+                        </DataGridTextColumn.ElementStyle>
+                    </DataGridTextColumn>
+                    <DataGridTextColumn Width="*" Header="車位總數" Binding="{Binding TotalCount}">
+                        <DataGridTextColumn.ElementStyle>
+                            <Style TargetType="{x:Type TextBlock}">
+                                <Setter Property="VerticalAlignment" Value="Center"/>
+                            </Style>
+                        </DataGridTextColumn.ElementStyle>
+                    </DataGridTextColumn>
+                    <DataGridTextColumn Width="*" Header="場內空位" Binding="{Binding DisplayCurrentCount}">
+                        <DataGridTextColumn.ElementStyle>
+                            <Style TargetType="{x:Type TextBlock}">
+                                <Setter Property="VerticalAlignment" Value="Center"/>
+                            </Style>
+                        </DataGridTextColumn.ElementStyle>
+                    </DataGridTextColumn>
+                </DataGrid.Columns>
+            </DataGrid>
+        </Border>
+    </Grid>
+</UserControl>

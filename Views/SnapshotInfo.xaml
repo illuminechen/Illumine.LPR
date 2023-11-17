@@ -1,0 +1,44 @@
+<UserControl x:Class="Illumine.LPR.SnapshotInfo"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:local="clr-namespace:Illumine.LPR"
+             x:Name="uc"
+             mc:Ignorable="d"
+             d:DataContext="{x:Static local:SnapshotInfoDesignModel.Instance}" d:DesignWidth="403" d:DesignHeight="354">
+    <Grid>
+        <FrameworkElement.Style>
+            <Style TargetType="{x:Type Grid}">
+                <Style.Triggers>
+                    <DataTrigger Binding="{Binding DataContext, ElementName=uc}" Value="{x:Null}">
+                        <Setter Property="UIElement.Visibility" Value="Collapsed"/>
+                    </DataTrigger>
+                </Style.Triggers>
+            </Style>
+        </FrameworkElement.Style>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <TextBlock Foreground="{StaticResource WordBlueBrush}" HorizontalAlignment="Center"
+               Style="{StaticResource HeaderText}" Text="{Binding Title}"/>
+        <StackPanel Orientation="Vertical" Grid.Row="2" local:KeyValuePairWidthMatcherProperty.Value="120"
+                local:KeyValuePairSpaceProperty.Value="8">
+            <local:KeyValuePairControl Visibility="{Binding Visible, Converter={local:BooleanToCollapsedConverter}}" DataContext="{Binding PlateNumber}"/>
+            <local:KeyValuePairControl Visibility="{Binding Visible, Converter={local:BooleanToCollapsedConverter}}" DataContext="{Binding CardNumber}"/>
+            <local:KeyValuePairControl Visibility="{Binding Visible, Converter={local:BooleanToCollapsedConverter}}"  DataContext="{Binding ParkingMode}"/>
+            <local:KeyValuePairControl Visibility="{Binding Visible, Converter={local:BooleanToCollapsedConverter}}" DataContext="{Binding TimeStamp}"/>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                <TextBox CharacterCasing="Upper" Margin="20 0 20 0" HorizontalContentAlignment="Center"
+                 Text="{Binding NewPlateNumber}"/>
+                <Button Grid.Column="1" Content="車牌更正" Command="{Binding CorrectCommand}"/>
+            </Grid>
+            <Button Content="解除警訊" Visibility="Collapsed"/>
+        </StackPanel>
+    </Grid>
+</UserControl>

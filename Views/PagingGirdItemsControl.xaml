@@ -1,0 +1,86 @@
+﻿<UserControl x:Class="Illumine.LPR.PagingGirdItemsControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Illumine.LPR"
+             mc:Ignorable="d"              
+             d:DesignHeight="450" d:DesignWidth="800"
+             d:DataContext="{x:Static local:PagingGirdItemsControlDesignModel.Instance}">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="{Binding NavHeight}"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <StackPanel Orientation="Horizontal">
+            <Button Margin="5 0 0 0" 
+                    Style="{StaticResource RoundIconButton}" 
+                    Control.FontFamily="{StaticResource FontAwesome5}" 
+                    Visibility="{Binding NeedPaging,Converter={local:BooleanToVisibilityConverter}}" 
+                    IsEnabled="{Binding CanPrevious}" Command="{Binding PreviousPageCommand}"                     
+                    Content="{StaticResource FontAwesomePrevIcon}" 
+                    Width="35">
+            </Button>
+
+            <ItemsControl x:Name="tStack" Grid.Column="0" ItemsSource="{Binding Pages}">
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <StackPanel Orientation="Horizontal"/>
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <Button Margin="5 0 0 0" Command="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}, Path=DataContext.GoToPageCommand}" CommandParameter="{Binding Index}" Content="{Binding Index}" Width="35">
+                            <Button.Style>
+                                <Style TargetType="Button" BasedOn="{StaticResource RoundButton}">
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding Current}" Value="True">
+                                            <Setter Property="Background" Value="{StaticResource WordOrangeBrush}"/>
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </Button.Style>
+                        </Button>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+
+            <Button Margin="5 0 0 0" 
+                    Style="{StaticResource RoundIconButton}" 
+                    Visibility="{Binding NeedPaging,Converter={local:BooleanToVisibilityConverter}}" 
+                    IsEnabled="{Binding CanNext}" 
+                    Command="{Binding NextPageCommand}" 
+                    Control.FontFamily="{StaticResource FontAwesome5}" 
+                    Content="{StaticResource FontAwesomeNextIcon}" 
+                    Width="35">
+            </Button>
+
+        </StackPanel>
+
+        <local:UniformGirdItemsControl x:Name="ItemsControl"
+                                    Orientation="Vertical"
+                                    Grid.Row="2"
+                                    MainItemsSource="{Binding ChannelViewerViewModelIdList}"
+                                    CurrentPageIndex="{Binding CurrentPageIndex}"
+                                    UniformGirdColumns="{Binding UniformGirdColumns}"
+                                    UniformGirdRows="{Binding UniformGirdRows}">
+            <local:UniformGirdItemsControl.ItemTemplate>
+                <DataTemplate>
+                    <Border Margin="5" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                        <local:ChannelViewer Padding="2" DataContext="{Binding Converter={local:ChannelIdToCVVM}}">
+                            <local:ChannelViewer.Style>
+                                <Style TargetType="{x:Type local:ChannelViewer}">
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding RelativeSource={x:Static RelativeSource.Self}, Path=DataContext}" Value="{x:Null}">
+                                            <Setter Property="Visibility" Value="Hidden"/>
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </local:ChannelViewer.Style>
+                        </local:ChannelViewer>
+                    </Border>
+                </DataTemplate>
+            </local:UniformGirdItemsControl.ItemTemplate>
+        </local:UniformGirdItemsControl>
+    </Grid>
+</UserControl>

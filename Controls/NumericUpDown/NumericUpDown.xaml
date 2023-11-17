@@ -1,0 +1,33 @@
+<UserControl x:Class="Illumine.LPR.NumericUpDown"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:local="clr-namespace:Illumine.LPR"
+             Width="320.573">
+  <Border BorderThickness="1" BorderBrush="{StaticResource ForegroundDarkBrush}">
+    <Grid>
+      <Grid.ColumnDefinitions>
+        <ColumnDefinition Width="*"/>
+        <ColumnDefinition MinWidth="20" Width="Auto"/>
+      </Grid.ColumnDefinitions>
+      <Grid.RowDefinitions>
+        <RowDefinition Height="*"/>
+        <RowDefinition Height="*"/>
+      </Grid.RowDefinitions>
+      <Border Grid.RowSpan="2"
+              Background="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}, Path=Background}">
+        <Viewbox MouseDown="ViewBox_MouseDown" Stretch="Uniform" Cursor="IBeam">
+        <TextBox x:Name="tb" Text="0" BorderThickness="0"
+                   Background="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}, Path=Background}"/>
+        </Viewbox>
+      </Border>
+      <Viewbox Grid.Column="1" Stretch="Fill">
+        <Button Click="Up_Click" Content="▲" Style="{x:Null}"/>
+      </Viewbox>
+      <Viewbox Grid.Column="1" Grid.Row="1" Stretch="Fill">
+        <Button Click="Down_Click" Content="▼" Style="{x:Null}"/>
+      </Viewbox>
+    </Grid>
+  </Border>
+</UserControl>

@@ -1,0 +1,17 @@
+<UserControl x:Class="Illumine.LPR.PlateSnapshot"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:local="clr-namespace:Illumine.LPR"
+             mc:Ignorable="d"
+             d:DataContext="{x:Static local:PlateSnapshotDesignModel.Instance}" 
+             d:DesignWidth="404" 
+             d:DesignHeight="249">
+    <Grid>
+    <Image Stretch="Fill" UseLayoutRounding="true" Source="{Binding SnapshotPath}"/>
+    <TextBlock HorizontalAlignment="Left" Background="White" VerticalAlignment="Top" Text="{Binding LeftTopText}"/>
+    <TextBlock Background="White" HorizontalAlignment="Left" VerticalAlignment="Bottom"
+               Text="{Binding LeftBotText}"/>
+  </Grid>
+</UserControl>

@@ -1,0 +1,49 @@
+<Window x:Class="Illumine.LPR.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable ="d"
+        xmlns:local="clr-namespace:Illumine.LPR"
+        Title="車牌辨識" Height="1080" Width="1920" Icon="/Illumine.LPR;component/icon.png" WindowStartupLocation="CenterScreen"
+        WindowState="Maximized"
+        Closing="Window_Closing"
+        d:DataContext="{x:Static local:MainWindowDesignModel.Instance}">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <TabControl Grid.Row="1" Grid.ColumnSpan="3" Padding="0">
+            <TabItem Header="主頁" Width="80" Margin="0" FontSize="{StaticResource FontSizeXLarge}">
+                <Grid>
+                    <Border Grid.Row="1" Padding="5" Background="Gray" Grid.ColumnSpan="2">
+                        <Grid>
+                            <Panel.Background>
+                                <LinearGradientBrush StartPoint="0 0" EndPoint="1 1">
+                                    <GradientBrush.GradientStops>
+                                        <GradientStop Color="LightYellow"/>
+                                        <GradientStop Color="AntiqueWhite" Offset="1"/>
+                                    </GradientBrush.GradientStops>
+                                </LinearGradientBrush>
+                            </Panel.Background>
+
+                            <local:PagingGirdItemsControl DataContext="{Binding PagingGirdItemsControlViewModel}"/>
+                        </Grid>
+                    </Border>
+                </Grid>
+            </TabItem>
+            <TabItem Header="紀錄" Width="80" Margin="0" FontSize="{StaticResource FontSizeXLarge}">
+                <Grid>
+                    <local:RecordPage DataContext="{Binding RecordPageViewModel}"/>
+                </Grid>
+            </TabItem>
+            <TabItem Header="白名單" Width="80" Margin="0" FontSize="{StaticResource FontSizeXLarge}"
+               Visibility="{Binding IsVipEnabled, Converter={local:BooleanToVisibilityConverter}}">
+                <Grid>
+                    <local:VipListPage DataContext="{Binding VipListPageViewModel}"/>
+                </Grid>
+            </TabItem>
+        </TabControl>
+    </Grid>
+</Window>
