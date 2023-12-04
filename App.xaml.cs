@@ -67,7 +67,7 @@ namespace Illumine.LPR
                 {
 
                     ApplicationSetup();
-                    Container.Put(System.Text.Encoding.GetEncoding(950));
+                    Container.Put(System.Text.Encoding.Default);
                     Container.Put(new ProgressDialog() { DataContext = new ProgressDialogViewModel() });
                     //Task.Run(() =>
                     //{
