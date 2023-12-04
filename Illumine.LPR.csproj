@@ -168,6 +168,7 @@
       <DependentUpon>NumericUpDown.xaml</DependentUpon>
     </Compile>
     <Compile Include="DataModels\GroupData.cs" />
+    <Compile Include="DataModels\LPRInfoText.cs" />
     <Compile Include="Dialogs\ProgressDialog\ProgressDialog.xaml.cs">
       <DependentUpon>ProgressDialog.xaml</DependentUpon>
     </Compile>

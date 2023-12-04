@@ -1,9 +1,14 @@
-﻿namespace Illumine.LPR
+﻿using Illumine.LPR.DataModels;
+using System.Collections.Generic;
+
+namespace Illumine.LPR
 {
     public class InfoService
     {
         public static SnapshotInfoViewModel GetViewModel(RecordViewModel recordVM)
         {
+            LPRInfoText infoText = Container.Get<LPRInfoText>();
+
             SnapshotInfoViewModel snapshotVM = null;
             if (recordVM != null)
             {
@@ -11,37 +16,37 @@
                 switch (recordVM.CarPlateViewModel.ParkingMode)
                 {
                     case ParkingMode.Temporary:
-                        str1 = "臨時停車";
+                        str1 = infoText.Temporary ?? "臨時停車";
                         break;
                     case ParkingMode.Vip:
-                        str1 = "月租停車";
+                        str1 = infoText.Vip ?? "月租停車";
                         break;
                     case ParkingMode.NotVip:
-                        str1 = "非月租停車";
+                        str1 = infoText.NotVip ?? "非月租停車";
                         break;
                     case ParkingMode.NotOnPeriod:
-                        str1 = "錯誤時段";
+                        str1 = infoText.NotOnPeriod ?? "錯誤時段";
                         break;
                     case ParkingMode.Expired:
-                        str1 = "時效過期";
+                        str1 = infoText.Expired ?? "時效過期";
                         break;
                     case ParkingMode.Incorrect:
-                        str1 = "進出錯誤";
+                        str1 = infoText.Incorrect ?? "進出錯誤";
                         break;
                     case ParkingMode.SmartPay:
-                        str1 = "智慧支付";
+                        str1 = infoText.SmartPay ?? "智慧支付";
                         break;
                     case ParkingMode.NoSpace:
-                        str1 = "車位不足";
+                        str1 = infoText.NoSpace ?? "車位不足";
                         break;
                     case ParkingMode.NoPay:
-                        str1 = "請至繳費機繳費";
+                        str1 = infoText.NoPay ?? "請至繳費機繳費";
                         break;
                     case ParkingMode.NotCoherence:
-                        str1 = "ETag車牌不一致";
+                        str1 = infoText.NotCoherence ?? "ETag車牌不一致";
                         break;
                     default:
-                        str1 = "未知模式";
+                        str1 = infoText.Other ?? "未知模式";
                         break;
                 }
                 string str2;

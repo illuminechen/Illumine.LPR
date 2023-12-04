@@ -1,4 +1,5 @@
-﻿using Illumine.LPR.Repository;
+﻿using Illumine.LPR.DataModels;
+using Illumine.LPR.Repository;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -21,6 +22,8 @@ namespace Illumine.LPR
             Container.Put(xdocument.Descendants("Channel").Select(x => ItemConverter<ChannelDataModel>.GetData(x)).ToList());
             LPRSetting data = ItemConverter<LPRSetting>.GetData(xdocument.Element("Illumine.LPR").Element("LPR"));
             Container.Put(data);
+            LPRInfoText infotext = ItemConverter<LPRInfoText>.GetData(xdocument.Element("Illumine.LPR").Element("InfoText"));
+            Container.Put(infotext);
 
             if (!data.IsVipEnabed)
                 return;
