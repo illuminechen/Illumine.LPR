@@ -22,9 +22,15 @@ namespace Illumine.LPR
             Container.Put(xdocument.Descendants("Channel").Select(x => ItemConverter<ChannelDataModel>.GetData(x)).ToList());
             LPRSetting data = ItemConverter<LPRSetting>.GetData(xdocument.Element("Illumine.LPR").Element("LPR"));
             Container.Put(data);
-            LPRInfoText infotext = ItemConverter<LPRInfoText>.GetData(xdocument.Element("Illumine.LPR").Element("InfoText"));
-            Container.Put(infotext);
-
+            try
+            {
+                LPRInfoText infotext = ItemConverter<LPRInfoText>.GetData(xdocument.Element("Illumine.LPR").Element("InfoText"));
+                Container.Put(infotext);
+            }
+            catch (System.NullReferenceException)
+            {
+                Container.Put(new LPRInfoText());
+            }
             if (!data.IsVipEnabed)
                 return;
             Container.Put(ItemConverter<RelaySetting>.GetData(xdocument.Element("Illumine.LPR").Element("Relay")));
