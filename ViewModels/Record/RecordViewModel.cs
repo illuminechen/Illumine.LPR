@@ -50,7 +50,7 @@ namespace Illumine.LPR
                 ParkingMode = msg.ParkingMode,
                 PlateNumber = msg.PlateNumber
             };
-            if (Container.Get<LPRSetting>().ETagMode != ETagMode.No)
+            if (Container.Get<LPRSetting>().IsVipEnabed && Container.Get<LPRSetting>().ETagMode != ETagMode.No)
             {
                 string[] pairs = msg.Tag.Split(new string[] { ";" }, StringSplitOptions.RemoveEmptyEntries);
                 foreach (string pair in pairs)

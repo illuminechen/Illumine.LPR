@@ -76,6 +76,9 @@ namespace Illumine.LPR
 
         public string Line2Active { get; set; } = "";
 
+        public string Line1CantPass { get; set; } = "";
+
+        public string Line2CantPass { get; set; } = "";
 
         public EntryMode EntryMode { get; set; }
 

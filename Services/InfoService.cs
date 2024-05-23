@@ -45,6 +45,9 @@ namespace Illumine.LPR
                     case ParkingMode.NotCoherence:
                         str1 = infoText.NotCoherence ?? "ETag車牌不一致";
                         break;
+                    case ParkingMode.CantPass:
+                        str1 = infoText.CantPass ?? "無法通行";
+                        break;
                     default:
                         str1 = infoText.Other ?? "未知模式";
                         break;

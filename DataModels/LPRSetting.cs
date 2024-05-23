@@ -5,15 +5,25 @@ namespace Illumine.LPR
     [DisplayName("LPR")]
     public class LPRSetting
     {
+        public string ProjectName { get; set; } = "";
+
         public string Ip { get; set; } = "127.0.0.1";
 
         public string HostIp { get; set; } = "127.0.0.1";
+
+        public bool UseRemoteServer { get; set; } = false;
+
+        public string JToken { get; set; } = "";
+
+        public string WhiteList { get; set; } = "";
 
         public bool IsVipEnabed { get; set; }
 
         public bool IsCheckingInOut { get; set; } = true;
 
         public bool UseParkingServer { get; set; } = false;
+
+        public bool UseParkingServerEx { get; set; } = false;
 
         public string ParkingServerHostUrl { get; set; } = "127.0.0.1";
 

@@ -39,9 +39,14 @@
                 </Grid>
             </TabItem>
             <TabItem Header="白名單" Width="80" Margin="0" FontSize="{StaticResource FontSizeXLarge}"
-               Visibility="{Binding IsVipEnabled, Converter={local:BooleanToVisibilityConverter}}">
+               Visibility="{Binding IsVipEnabled, Converter={local:BooleanToCollapsedConverter}}">
                 <Grid>
                     <local:VipListPage DataContext="{Binding VipListPageViewModel}"/>
+                </Grid>
+            </TabItem>
+            <TabItem Header="設定" Width="80" Margin="0" FontSize="{StaticResource FontSizeXLarge}">
+                <Grid>
+                    <local:ConfigPage DataContext="{Binding ConfigPageViewModel}"/>
                 </Grid>
             </TabItem>
         </TabControl>

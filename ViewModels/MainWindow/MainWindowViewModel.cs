@@ -20,6 +20,8 @@ namespace Illumine.LPR
 
         public VipListPageViewModel VipListPageViewModel { get; set; }
 
+        public ConfigPageViewModel ConfigPageViewModel { get; set; }
+
         public PagingGirdItemsControlViewModel PagingGirdItemsControlViewModel { get; set; }
 
         public MainWindowViewModel()
@@ -31,6 +33,7 @@ namespace Illumine.LPR
             this.PagingGirdItemsControlViewModel = Container.Get<PagingGirdItemsControlViewModel>();
             this.RecordPageViewModel = Container.Get<RecordPageViewModel>();
             this.VipListPageViewModel = Container.Get<VipListPageViewModel>();
+            this.ConfigPageViewModel = Container.Get<ConfigPageViewModel>();
         }
     }
 }

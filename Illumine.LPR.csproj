@@ -89,6 +89,9 @@
     <Reference Include="PropertyChanged, Version=3.4.0.0, Culture=neutral, PublicKeyToken=ee3ee20bcf148ddd, processorArchitecture=MSIL">
       <HintPath>packages\PropertyChanged.Fody.3.4.0\lib\net40\PropertyChanged.dll</HintPath>
     </Reference>
+    <Reference Include="RestSharp, Version=110.2.0.0, Culture=neutral, PublicKeyToken=598062e77f915f75, processorArchitecture=MSIL">
+      <HintPath>packages\RestSharp.110.2.0\lib\net471\RestSharp.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Buffers, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>packages\System.Buffers.4.5.1\lib\net461\System.Buffers.dll</HintPath>
@@ -129,6 +132,7 @@
     <Reference Include="System.ValueTuple, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>packages\System.ValueTuple.4.5.0\lib\net47\System.ValueTuple.dll</HintPath>
     </Reference>
+    <Reference Include="System.Web" />
     <Reference Include="System.Windows.Forms">
       <EmbedInteropTypes>False</EmbedInteropTypes>
     </Reference>
@@ -172,7 +176,10 @@
     <Compile Include="Dialogs\ProgressDialog\ProgressDialog.xaml.cs">
       <DependentUpon>ProgressDialog.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Helpers\FileHelper.cs" />
     <Compile Include="Helpers\HttpClientHelper.cs" />
+    <Compile Include="Helpers\HttpServerHelper.cs" />
+    <Compile Include="Helpers\TimeHelper.cs" />
     <Compile Include="LEDService\CP5200.cs" />
     <Compile Include="Services\EtagService.cs" />
     <Compile Include="FrameworkElement\UniformGridItemsControl.cs" />
@@ -208,8 +215,10 @@
     <Compile Include="Services\AuthenticationService.cs" />
     <Compile Include="Services\GroupDataService.cs" />
     <Compile Include="Services\GroupViewModelService.cs" />
+    <Compile Include="Services\JotangiServerService.cs" />
     <Compile Include="Services\LEDService.cs" />
     <Compile Include="Services\ModbusTCPService.cs" />
+    <Compile Include="Services\ParkingServerExService.cs" />
     <Compile Include="Services\ParkingServerService.cs" />
     <Compile Include="Services\SpaceService.cs" />
     <Compile Include="ValueConverters\GroupIdToDisplayString.cs" />
@@ -222,6 +231,8 @@
     <Compile Include="ValueConverters\HalfConverter.cs" />
     <Compile Include="ValueConverters\SearchValueConverter.cs" />
     <Compile Include="ValueConverters\IntPlusOneConverter.cs" />
+    <Compile Include="ViewModels\ConfigPage\ConfigPageViewModel.cs" />
+    <Compile Include="ViewModels\ConfigPage\Design\ConfigPageDesignModel.cs" />
     <Compile Include="ViewModels\Group\Design\GroupDesignModel.cs" />
     <Compile Include="ViewModels\Group\GroupViewModel.cs" />
     <Compile Include="ViewModels\PagingGirdItemsControl\Design\PagingGirdItemsControlDesignModel.cs" />
@@ -235,6 +246,9 @@
     </Compile>
     <Compile Include="Controls\KeyValuePairControl.xaml.cs">
       <DependentUpon>KeyValuePairControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ConfigPage.xaml.cs">
+      <DependentUpon>ConfigPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\PlateSnapshot.xaml.cs">
       <DependentUpon>PlateSnapshot.xaml</DependentUpon>
@@ -422,6 +436,10 @@
     <Page Include="Controls\KeyValuePairControl.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\ConfigPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\PlateSnapshot.xaml">
       <Generator>MSBuild:Compile</Generator>

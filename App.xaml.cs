@@ -81,6 +81,12 @@ namespace Illumine.LPR
                     RepositoryService.UpdateSchema();
                     DataInitializer.Setup();
 
+                    //Task.Run(async () =>
+                    //{
+                    //    var res = await HttpClientHelper.GetFormUrlEncodedAsync("http://114.24.13.214:2048/getspace", new Dictionary<string, string>() { { "Authorization", "zkgPiYt0DRN8GY7gGBPOEe2Fc2N0ypQx" } } );
+                    //    System.Windows.Forms.MessageBox.Show(res);
+                    //});
+
                     if (Container.Get<LPRSetting>().ETagMode != ETagMode.No && !EtagService.Init())
                         System.Windows.Forms.MessageBox.Show("ETagServer未正確開啟");
 
@@ -102,6 +108,7 @@ namespace Illumine.LPR
             {
                 System.Windows.Forms.MessageBox.Show(ex.Message);
                 LogHelper.Log(ex);
+                this.Shutdown();
             }
             finally
             {

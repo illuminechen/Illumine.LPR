@@ -224,12 +224,14 @@ namespace Illumine.LPR
                 if (Container.Get<LPRSetting>().UseParkingServer && channelViewModel.EntryMode == EntryMode.Out)
                 {
                     bool pass = await ParkingServerService.CarCheckAsync(plateDataBundle.PlateNumber);
+
                     if (!pass)
                     {
                         //  show 不可的title (new parking mode) 請至繳費機繳費
                         msg.ParkingMode = ParkingMode.NoPay;
                     }
                 }
+
 
                 channelViewerViewModel.RecordViewModel = new RecordViewModel(msg);
                 channelViewerViewModel.PlateSnapshotViewModel = snapshotVM;
@@ -244,28 +246,49 @@ namespace Illumine.LPR
                         {
 
                         }
-                        else if (!Container.Get<LPRSetting>().UseParkingServer)
+                        else if (!Container.Get<LPRSetting>().UseParkingServer && !Container.Get<LPRSetting>().UseParkingServerEx)
                         {
                             channelViewerViewModel.CameraViewModel.OpenDoor();
                         }
 
-                        if (Container.Get<LPRSetting>().UseParkingServer)
+                        if (Container.Get<LPRSetting>().UseParkingServer && msg.ParkingMode != ParkingMode.NoPay)
                         {
                             channelViewerViewModel.CameraViewModel.OpenDoor();
+                        }
+
+                        if (Container.Get<LPRSetting>().UseParkingServerEx)
+                        {
+                            bool pass = await ParkingServerExService.CarPass(channelViewModel.Id, TimeHelper.GetEpochTime().ToString(), plateDataBundle.PlateNumber, Path.GetFullPath(e.FileName));
+
+                            if (!pass)
+                            {
+                                if (msg.ParkingMode == ParkingMode.Temporary || msg.ParkingMode == ParkingMode.Vip)
+                                    msg.ParkingMode = ParkingMode.CantPass;
+                            }
+                            else
+                            {
+                                channelViewerViewModel.CameraViewModel.OpenDoor();
+                            }
                         }
 
 
                         if (channelViewModel.Led1Ip != "")
                         {
+                            if (msg.ParkingMode == ParkingMode.CantPass)
+                            {
+                                LEDService.Send(channelViewModel.Led1Ip, channelViewModel.Led1Port, channelViewModel.Line1CantPass, channelViewModel.Line2CantPass, channelViewModel.Line1Normal, channelViewModel.Line2Normal);
+                            }
+                            else
+                            {
+                                string line1 = (plateDataBundle.PlateNumber.Replace("-", "") == Container.Get<LPRSetting>().NoPlate) ? channelViewModel.Line1Fail :
+                                    (channelViewModel.Line1Active == "[Plate]") ? plateDataBundle.PlateNumber :
+                                    (channelViewModel.Line1Active == "[Vip]") ? VipDataService.GetDisplayText(msg.ParkingMode) : channelViewModel.Line1Active;
+                                string line2 = (plateDataBundle.PlateNumber.Replace("-", "") == Container.Get<LPRSetting>().NoPlate) ? channelViewModel.Line2Fail :
+                                    (channelViewModel.Line2Active == "[Plate]") ? plateDataBundle.PlateNumber :
+                                    (channelViewModel.Line2Active == "[Vip]") ? VipDataService.GetDisplayText(msg.ParkingMode) : channelViewModel.Line2Active;
 
-                            string line1 = (plateDataBundle.PlateNumber.Replace("-", "") == Container.Get<LPRSetting>().NoPlate) ? channelViewModel.Line1Fail :
-                                (channelViewModel.Line1Active == "[Plate]") ? plateDataBundle.PlateNumber :
-                                (channelViewModel.Line1Active == "[Vip]") ? VipDataService.GetDisplayText(msg.ParkingMode) : channelViewModel.Line1Active;
-                            string line2 = (plateDataBundle.PlateNumber.Replace("-", "") == Container.Get<LPRSetting>().NoPlate) ? channelViewModel.Line2Fail :
-                                (channelViewModel.Line2Active == "[Plate]") ? plateDataBundle.PlateNumber :
-                                (channelViewModel.Line2Active == "[Vip]") ? VipDataService.GetDisplayText(msg.ParkingMode) : channelViewModel.Line2Active;
-
-                            LEDService.Send(channelViewModel.Led1Ip, channelViewModel.Led1Port, line1, line2, channelViewModel.Line1Normal, channelViewModel.Line2Normal);
+                                LEDService.Send(channelViewModel.Led1Ip, channelViewModel.Led1Port, line1, line2, channelViewModel.Line1Normal, channelViewModel.Line2Normal);
+                            }
                         }
 
                     }
@@ -276,21 +299,45 @@ namespace Illumine.LPR
                         if (plateDataBundle.PlateNumber.Replace("-", "") == Container.Get<LPRSetting>().NoPlate)
                         {
                         }
-                        else if (count != 0 || channelViewModel.Led2Ip == "")
+                        else if (count != 0 || channelViewModel.Led2Ip == "") // Led2不計車位 todo:重複進場
                         {
-                            channelViewerViewModel.CameraViewModel.OpenDoor();
+                            if (Container.Get<LPRSetting>().UseParkingServerEx)
+                            {
+                                bool pass = await ParkingServerExService.CarPass(channelViewModel.Id, TimeHelper.GetEpochTime().ToString(), plateDataBundle.PlateNumber, Path.GetFullPath(e.FileName));
+
+                                if (!pass)
+                                {
+                                    if (msg.ParkingMode == ParkingMode.Temporary || msg.ParkingMode == ParkingMode.Vip)
+                                        msg.ParkingMode = ParkingMode.CantPass;
+                                }
+                                else
+                                {
+                                    channelViewerViewModel.CameraViewModel.OpenDoor();
+                                }
+                            }
+                            else
+                            {
+                                channelViewerViewModel.CameraViewModel.OpenDoor();
+                            }
                         }
 
                         if (channelViewModel.Led1Ip != "")
                         {
-                            string line1 = (plateDataBundle.PlateNumber.Replace("-", "") == Container.Get<LPRSetting>().NoPlate) ? channelViewModel.Line1Fail :
+                            if (msg.ParkingMode == ParkingMode.CantPass)
+                            {
+                                LEDService.Send(channelViewModel.Led1Ip, channelViewModel.Led1Port, channelViewModel.Line1CantPass, channelViewModel.Line2CantPass, channelViewModel.Line1Normal, channelViewModel.Line2Normal);
+                            }
+                            else
+                            {
+                                string line1 = (plateDataBundle.PlateNumber.Replace("-", "") == Container.Get<LPRSetting>().NoPlate) ? channelViewModel.Line1Fail :
                                 (channelViewModel.Line1Active == "[Plate]") ? plateDataBundle.PlateNumber :
                                 (channelViewModel.Line1Active == "[Vip]") ? VipDataService.GetDisplayText(msg.ParkingMode) : channelViewModel.Line1Active;
-                            string line2 = (plateDataBundle.PlateNumber.Replace("-", "") == Container.Get<LPRSetting>().NoPlate) ? channelViewModel.Line2Fail :
-                                (channelViewModel.Line2Active == "[Plate]") ? plateDataBundle.PlateNumber :
-                                (channelViewModel.Line2Active == "[Vip]") ? VipDataService.GetDisplayText(msg.ParkingMode) : channelViewModel.Line2Active;
+                                string line2 = (plateDataBundle.PlateNumber.Replace("-", "") == Container.Get<LPRSetting>().NoPlate) ? channelViewModel.Line2Fail :
+                                    (channelViewModel.Line2Active == "[Plate]") ? plateDataBundle.PlateNumber :
+                                    (channelViewModel.Line2Active == "[Vip]") ? VipDataService.GetDisplayText(msg.ParkingMode) : channelViewModel.Line2Active;
 
-                            LEDService.Send(channelViewModel.Led1Ip, channelViewModel.Led1Port, line1, line2, channelViewModel.Line1Normal, channelViewModel.Line2Normal);
+                                LEDService.Send(channelViewModel.Led1Ip, channelViewModel.Led1Port, line1, line2, channelViewModel.Line1Normal, channelViewModel.Line2Normal);
+                            }
                         }
                     }
                 }
@@ -314,15 +361,21 @@ namespace Illumine.LPR
                     {
                         if (channelViewModel.Led1Ip != "")
                         {
-
-                            string line1 = (plateDataBundle.PlateNumber.Replace("-", "") == Container.Get<LPRSetting>().NoPlate) ? channelViewModel.Line1Fail :
+                            if (msg.ParkingMode == ParkingMode.CantPass)
+                            {
+                                LEDService.Send(channelViewModel.Led1Ip, channelViewModel.Led1Port, channelViewModel.Line1CantPass, channelViewModel.Line2CantPass, channelViewModel.Line1Normal, channelViewModel.Line2Normal);
+                            }
+                            else
+                            {
+                                string line1 = (plateDataBundle.PlateNumber.Replace("-", "") == Container.Get<LPRSetting>().NoPlate) ? channelViewModel.Line1Fail :
                                 (channelViewModel.Line1NoVip == "[Plate]") ? plateDataBundle.PlateNumber :
                                 (channelViewModel.Line1NoVip == "[Vip]") ? VipDataService.GetDisplayText(msg.ParkingMode) : channelViewModel.Line1NoVip;
-                            string line2 = (plateDataBundle.PlateNumber.Replace("-", "") == Container.Get<LPRSetting>().NoPlate) ? channelViewModel.Line2Fail :
-                                (channelViewModel.Line2NoVip == "[Plate]") ? plateDataBundle.PlateNumber :
-                                (channelViewModel.Line2NoVip == "[Vip]") ? VipDataService.GetDisplayText(msg.ParkingMode) : channelViewModel.Line2NoVip;
+                                string line2 = (plateDataBundle.PlateNumber.Replace("-", "") == Container.Get<LPRSetting>().NoPlate) ? channelViewModel.Line2Fail :
+                                    (channelViewModel.Line2NoVip == "[Plate]") ? plateDataBundle.PlateNumber :
+                                    (channelViewModel.Line2NoVip == "[Vip]") ? VipDataService.GetDisplayText(msg.ParkingMode) : channelViewModel.Line2NoVip;
 
-                            LEDService.Send(channelViewModel.Led1Ip, channelViewModel.Led1Port, line1, line2, channelViewModel.Line1Normal, channelViewModel.Line2Normal);
+                                LEDService.Send(channelViewModel.Led1Ip, channelViewModel.Led1Port, line1, line2, channelViewModel.Line1Normal, channelViewModel.Line2Normal);
+                            }
                         }
                     }
                     RelayService.OpenRelay(Container.Get<RelaySetting>().PortName, Container.Get<RelaySetting>().TriggerRelay, Container.Get<RelaySetting>().OpenSeconds);
@@ -349,16 +402,18 @@ namespace Illumine.LPR
                     //  場內車位+1
                     int count = SpaceService.GetSpaceCount();
                     string plate = plateDataBundle.PlateNumber;
+                    if (msg.ParkingMode == ParkingMode.NoPay)
+                    {
+                        // 車位不加
+                    }
+                    else if (msg.ParkingMode == ParkingMode.Temporary || msg.ParkingMode == ParkingMode.Vip)
+                    {
+                        // 車位要加
+                        count++;
+                    }
                     if (plateDataBundle.PlateNumber.Replace("-", "") == Container.Get<LPRSetting>().NoPlate)
                     {
                         plate = "";
-                        if (Container.Get<LPRSetting>().UseParkingServer)
-                            count++;
-                    }
-                    else if (!Container.Get<LPRSetting>().UseParkingServer)
-                    {
-                        count++;
-                        //channelViewerViewModel.CameraViewModel.OpenDoor();
                     }
 
                     // 入口顯示剩餘車位
@@ -382,6 +437,9 @@ namespace Illumine.LPR
                     {
                         //  車出Leave
                         bool pass = await ParkingServerService.CarLeave(plate, e.TimeStamp.ToString("yyyy-MM-dd HH:mm:ss"), e.FileName);
+
+                        if (!pass)
+                            count--;
 
                         //  count
                         ParkingServerService.SpaceCount(count);

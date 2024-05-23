@@ -193,7 +193,7 @@ public class ModbusTCPService : IDisposable
 
                 Task delaytask = Task.Delay(3000);
                 if (await Task.WhenAny(delaytask, Task.Run(action)) == delaytask)
-                    throw new Exception("failed");
+                    throw new Exception("sensor failed");
                 delaytask = null;
             }
             catch (Exception ex)

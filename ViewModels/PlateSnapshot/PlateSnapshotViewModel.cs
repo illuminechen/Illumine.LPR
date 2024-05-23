@@ -13,7 +13,7 @@ namespace Illumine.LPR
 
         public string LeftTopText { get; set; } = "上次入場";
 
-        public string LeftBotText => "入場車牌:" + this.PlateNumber;
+        public string LeftBotText => "車牌:" + this.PlateNumber;
 
         public string SnapshotPath { get; set; }
         public BitmapImage SmallSnapshot { get; set; }

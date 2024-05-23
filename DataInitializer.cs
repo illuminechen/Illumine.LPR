@@ -25,7 +25,16 @@ namespace Illumine.LPR
             Container.Put(RepositoryService.GetGroup());
             Container.Put(new RecordPageViewModel());
             Container.Put(new VipListPageViewModel());
+            Container.Put(new ConfigPageViewModel());
             Container.Put(new PagingGirdItemsControlViewModel());
+
+            if (Container.Get<LPRSetting>().UseRemoteServer && Container.Get<LPRSetting>().HostIp != "")
+            {
+                JotangiServerService jServer = new JotangiServerService(Container.Get<LPRSetting>().HostIp, 2048);
+                Container.Put<JotangiServerService>(jServer);
+                jServer.Start();
+            }
+
             if (Container.Get<LPRSetting>().LPRMode == LPRMode.UDPServer)
             {
                 Container.Put(new Dictionary<string, Rectangle>());
@@ -66,6 +75,8 @@ namespace Illumine.LPR
                     Line2Normal = channelDataModel.Line2Normal,
                     Line1Fail = channelDataModel.Line1Fail,
                     Line2Fail = channelDataModel.Line2Fail,
+                    Line1CantPass = channelDataModel.Line1CantPass,
+                    Line2CantPass = channelDataModel.Line2CantPass,
                 };
 
                 Container.Put(channelDataModel.Id, channelVM);
@@ -177,6 +188,13 @@ namespace Illumine.LPR
                     {
                         Container.Get<ChannelViewerViewModel>(channelDataModel.Id).CameraViewModel.FileWatching = false;
                         LogHelper.Log(nameof(Setup), channelDataModel.Watch + "is not valid.");
+                    }
+
+                    if (Container.Get<LPRSetting>().UseParkingServerEx)
+                    {
+                        LogHelper.Log("HeartBeat procedure start");
+                        Timer timer = new Timer(new TimerCallback(delegate { ParkingServerExService.HeartBeat(TimeHelper.GetEpochTime().ToString(), channelDataModel.Id); }), null, TimeSpan.FromSeconds(0), TimeSpan.FromSeconds(55));
+                        Container.Put<int, Timer>(channelDataModel.Id, timer);
                     }
                 }
             }

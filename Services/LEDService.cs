@@ -326,7 +326,7 @@ namespace Illumine.LPR
 
         public static void Send(string ip, int port, string active1, string active2, string normal1, string normal2)
         {
-
+            LogHelper.Log($"LED:{active1},{active2},{normal1},{normal2}");
             TextSendingQueue obj1 = new TextSendingQueue() { Ip = ip, Port = port, Line = 0, ActTime = DateTime.Now };
             TextSendingQueue obj2 = new TextSendingQueue() { Ip = ip, Port = port, Line = 1, ActTime = DateTime.Now };
             var key = new Tuple<string, int>(ip, port);

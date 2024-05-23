@@ -19,6 +19,9 @@ namespace Illumine.LPR
             {
                 Container.Get<ProgressDialog>().ForcingClose = true;
                 Container.Get<ProgressDialog>().Close();
+
+                if (Container.Get<LPRSetting>().UseRemoteServer && Container.Get<LPRSetting>().HostIp != "")
+                    Container.Get<JotangiServerService>().Stop();
             }
             else
             {

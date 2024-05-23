@@ -11,6 +11,7 @@
         SmartPay,
         NoSpace,
         NoPay,
+        CantPass,
         NotCoherence
     }
 }

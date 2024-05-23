@@ -259,7 +259,7 @@ namespace Illumine.LPR
                 List<PlateDataBundle> plateList = new List<PlateDataBundle>();
                 plateList.Add(new PlateDataBundle()
                 {
-                    PlateNumber = "#######",
+                    PlateNumber = "TEST100",
                     Rectangle = new Rectangle(location, size)
                 });
                 LogHelper.Log("SendTestCallback");
@@ -342,7 +342,7 @@ namespace Illumine.LPR
                 {
                     Task delaytask = Task.Delay(cameraViewerViewModel.ChannelViewModel.InitialTimeout, cameraViewerViewModel.cts.Token);
                     if (await Task.WhenAny(delaytask, Task.Run(action, cameraViewerViewModel.cts.Token)) == delaytask)
-                        throw new Exception("failed");
+                        throw new Exception("camera failed");
                     delaytask = null;
                 }
                 else

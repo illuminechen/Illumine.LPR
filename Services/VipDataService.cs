@@ -104,6 +104,8 @@ namespace Illumine.LPR
                     return "車位已滿";
                 case ParkingMode.NoPay:
                     return "請至繳費機繳費";
+                case ParkingMode.CantPass:
+                    return "無法通行";
                 case ParkingMode.NotCoherence:
                     return "ETag車牌不一致";
                 default:

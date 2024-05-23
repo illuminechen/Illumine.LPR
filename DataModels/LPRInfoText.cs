@@ -20,6 +20,7 @@ namespace Illumine.LPR.DataModels
         public string NoSpace { get; set; }
         public string NoPay { get; set; }
         public string NotCoherence { get; set; }
+        public string CantPass { get; set; }
         public string Other { get; set; }
     }
 }
