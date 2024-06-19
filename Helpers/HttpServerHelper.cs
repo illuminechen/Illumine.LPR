@@ -229,7 +229,11 @@ namespace Illumine.LPR
                             s = listener.AcceptSocket();
                             string ip = s.RemoteEndPoint.ToString().Split(':')[0];
 
-                            if (!Container.Get<LPRSetting>().WhiteList.Split(';').Contains(ip))
+                            if(Container.Get<LPRSetting>().HostIp == ip)
+                            {
+
+                            }
+                            else if (!Container.Get<LPRSetting>().WhiteList.Split(';').Contains(ip))
                             {
                                 LogHelper.Log("Unauthorized IP:" + ip);
                                 s.Shutdown(SocketShutdown.Both);

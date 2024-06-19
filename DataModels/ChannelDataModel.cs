@@ -31,6 +31,8 @@ namespace Illumine.LPR
 
         public string EtagReaderIp { get; set; } = "";
 
+        public string EtagReaderExIp { get; set; } = "";
+
         public string Line1Normal { get; set; } = "";
 
         public string Line2Normal { get; set; } = "";

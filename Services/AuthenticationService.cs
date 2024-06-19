@@ -424,7 +424,15 @@ namespace Illumine.LPR
                             if (channelDataModel.EntryMode == EntryMode.In)
                             {
                                 if (channelDataModel.Led2Ip != "")
-                                    LEDService.SendNumber(channelDataModel.Led2Ip, channelDataModel.Led2Port, count);
+                                {
+                                    foreach (var ip in channelDataModel.Led2Ip.Split(';'))
+                                    {
+                                        if (string.IsNullOrWhiteSpace(ip))
+                                            continue;
+
+                                        LEDService.SendNumber(ip, channelDataModel.Led2Port, count);
+                                    }
+                                }
                             }
                         }
                     }
@@ -505,7 +513,13 @@ namespace Illumine.LPR
                             {
                                 if (channelDataModel.Led2Ip != "")
                                 {
-                                    LEDService.SendNumber(channelDataModel.Led2Ip, channelDataModel.Led2Port, count);
+                                    foreach (var ip in channelDataModel.Led2Ip.Split(';'))
+                                    {
+                                        if (string.IsNullOrWhiteSpace(ip))
+                                            continue;
+
+                                        LEDService.SendNumber(ip, channelDataModel.Led2Port, count);
+                                    }
                                 }
                             }
                         }

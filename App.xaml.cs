@@ -87,9 +87,22 @@ namespace Illumine.LPR
                     //    System.Windows.Forms.MessageBox.Show(res);
                     //});
 
-                    if (Container.Get<LPRSetting>().ETagMode != ETagMode.No && !EtagService.Init())
-                        System.Windows.Forms.MessageBox.Show("ETagServer未正確開啟");
-
+                    if (Container.Get<LPRSetting>().ETagMode != ETagMode.No)
+                    {
+                        bool b = false;
+                        if (Container.Get<List<ChannelDataModel>>().Any(x => x.EtagReaderIp != ""))
+                        {
+                            b |= EtagService.Init();
+                        }
+                        if (Container.Get<List<ChannelDataModel>>().Any(x => x.EtagReaderExIp != ""))
+                        {
+                            b |= EtagServiceEx.Init();
+                        }
+                        if (!b)
+                        {
+                            System.Windows.Forms.MessageBox.Show("ETagServer未正確開啟");
+                        }
+                    }
                     //Task.Delay(5000);
                     //}).ContinueWith(t =>
                     //{

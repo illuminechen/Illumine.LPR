@@ -53,6 +53,7 @@ namespace Illumine.LPR
                     Url = channelDataModel.Ip,
                     SensorIp = channelDataModel.SensorIp,
                     EtagReaderIp = channelDataModel.EtagReaderIp,
+                    EtagReaderExIp = channelDataModel.EtagReaderExIp,
                     BackUrl = (channelDataModel.Ip == channelDataModel.BackCameraIp) ? "" : channelDataModel.BackCameraIp,
                     BackCameraType = channelDataModel.BackCameraType,
                     ExtOutput = channelDataModel.ExtOutput,
@@ -108,10 +109,16 @@ namespace Illumine.LPR
                         }
                         if (channelDataModel.Led2Ip != "")
                         {
-                            LEDService.SetWindow(channelDataModel.Led2Ip, channelDataModel.Led2Port, true, true);
-                            int count = SpaceService.GetSpaceCount();
-                            // LEDService.SendStaticText(channelDataModel.Led2Ip, channelDataModel.Led2Port, "剩餘車位");
-                            LEDService.SendNumber(channelDataModel.Led2Ip, channelDataModel.Led2Port, count);
+                            foreach (var ip in channelDataModel.Led2Ip.Split(';'))
+                            {
+                                if (string.IsNullOrWhiteSpace(ip))
+                                    continue;
+
+                                LEDService.SetWindow(ip, channelDataModel.Led2Port, true, true);
+                                int count = SpaceService.GetSpaceCount();
+                                // LEDService.SendStaticText(channelDataModel.Led2Ip, channelDataModel.Led2Port, "剩餘車位");
+                                LEDService.SendNumber(ip, channelDataModel.Led2Port, count);
+                            }
                         }
                     }
                     else if (channelDataModel.EntryMode == EntryMode.Out)

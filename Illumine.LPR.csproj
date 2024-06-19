@@ -181,6 +181,7 @@
     <Compile Include="Helpers\HttpServerHelper.cs" />
     <Compile Include="Helpers\TimeHelper.cs" />
     <Compile Include="LEDService\CP5200.cs" />
+    <Compile Include="Services\EtagServiceEx.cs" />
     <Compile Include="Services\EtagService.cs" />
     <Compile Include="FrameworkElement\UniformGridItemsControl.cs" />
     <Compile Include="Helpers\CrcHelper.cs" />

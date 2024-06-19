@@ -90,7 +90,9 @@ namespace Illumine.LPR
 
         public string EtagReaderIp { get; set; }
 
-        public bool ValidEtag => EtagReaderIp != "";
+        public string EtagReaderExIp { get; set; }
+
+        public bool ValidEtag => EtagReaderIp != "" || EtagReaderExIp != "";
 
         public bool EtagReaderConnecting { get; set; }
 
