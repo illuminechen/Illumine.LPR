@@ -36,7 +36,7 @@ namespace Illumine.LPR
         public IntPtr PlayingCameraId { get; set; } = IntPtr.Zero;
 
         public bool ShowControl => File.Exists("./Debug.flg");
-
+        
         public bool OpenDoor()
         {
             if (this.camId == IntPtr.Zero)

@@ -207,7 +207,12 @@ namespace Illumine.LPR
 
         private void lblEtagIndicator_MouseEnter(object sender, EventArgs e)
         {
-            toolTip1.Show(buttontooltip,this);
+            toolTip1.Show(buttontooltip, this);
+        }
+
+        public Image Snapshot()
+        {
+            return this.pictureBox1.Image;
         }
     }
 }

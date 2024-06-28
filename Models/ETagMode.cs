@@ -5,5 +5,6 @@
         No = 0,
         And = 1,
         Or = 2,
+        Hybrid = 3,
     }
 }

@@ -172,7 +172,7 @@ public class ModbusTCPService : IDisposable
 
     public async void ConnectHandler(object o)
     {
-        Console.WriteLine(_ipep.Address.ToString() + "Check");
+        //Console.WriteLine(_ipep.Address.ToString() + "Check");
 
         if (_connecting)
             return;

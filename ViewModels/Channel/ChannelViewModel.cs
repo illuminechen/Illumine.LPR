@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Drawing;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -36,8 +37,6 @@ namespace Illumine.LPR
             if (App.Initialized)
                 _tcs?.TrySetResult(null);
         }
-
-
 
         public bool Enabled { get; set; } = true;
 
