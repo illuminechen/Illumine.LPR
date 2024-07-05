@@ -180,74 +180,77 @@ namespace Illumine.LPR
 
             if (Container.Get<LPRSetting>().ETagMode != ETagMode.Hybrid)
                 return;
+            
+            CameraServiceFactory.Create(this.ChannelViewModel.CameraType).Trigger(cvvm.camId, cvvm.ChannelId);
 
-            var data = VipDataService.TryGetPlateByEtag(etag);
-            if (data != null)
-            {
-                DateTime now = DateTime.Now;
-                if (!Directory.Exists(Path.Combine(Environment.CurrentDirectory, "Image")))
-                    Directory.CreateDirectory(Path.Combine(Environment.CurrentDirectory, "Image"));
-                if (!Directory.Exists(Path.Combine(Environment.CurrentDirectory, "Image", this.ChannelId.ToString())))
-                    Directory.CreateDirectory(Path.Combine(Environment.CurrentDirectory, "Image", this.ChannelId.ToString()));
-                string str = Path.Combine(Environment.CurrentDirectory, "Image", this.ChannelId.ToString(), now.ToString("yyyyMMddHHmmssfff") + ".jpg");
-                Rectangle rectangle = new Rectangle(300, 300, 200, 100);
-                Point location = new Point(rectangle.Left, rectangle.Top);
-                Point point = new Point(rectangle.Right, rectangle.Bottom);
-                Size size = new Size(point.X - location.X, point.Y - location.Y);
-                ImageQuality imageQuality = Container.Get<LPRSetting>().ImageQuality;
+            //var data = VipDataService.TryGetPlateByEtag(etag);
 
-                Dictionary<ImageQuality, Size> dictionary = new Dictionary<ImageQuality, Size>()
-                {
-                    {
-                        ImageQuality._1080P,
-                        new Size(1920, 1080)
-                    },
-                    {
-                        ImageQuality._720P,
-                        new Size(1280, 720)
-                    },
-                    {
-                        ImageQuality._4CIF,
-                        new Size(640, 480)
-                    }
-                };
+            //if (data != null)
+            //{
+            //    DateTime now = DateTime.Now;
+            //    if (!Directory.Exists(Path.Combine(Environment.CurrentDirectory, "Image")))
+            //        Directory.CreateDirectory(Path.Combine(Environment.CurrentDirectory, "Image"));
+            //    if (!Directory.Exists(Path.Combine(Environment.CurrentDirectory, "Image", this.ChannelId.ToString())))
+            //        Directory.CreateDirectory(Path.Combine(Environment.CurrentDirectory, "Image", this.ChannelId.ToString()));
+            //    string str = Path.Combine(Environment.CurrentDirectory, "Image", this.ChannelId.ToString(), now.ToString("yyyyMMddHHmmssfff") + ".jpg");
+            //    Rectangle rectangle = new Rectangle(300, 300, 200, 100);
+            //    Point location = new Point(rectangle.Left, rectangle.Top);
+            //    Point point = new Point(rectangle.Right, rectangle.Bottom);
+            //    Size size = new Size(point.X - location.X, point.Y - location.Y);
+            //    ImageQuality imageQuality = Container.Get<LPRSetting>().ImageQuality;
 
-                if (imageQuality == ImageQuality.Default)
-                {
-                    using (MemoryStream memoryStream = new MemoryStream())
-                    {
-                        camera.Snapshot().Save((Stream)memoryStream, ImageFormat.Jpeg);
-                        using (FileStream fileStream = new FileStream(str, FileMode.Create, FileAccess.Write))
-                            memoryStream.WriteTo((Stream)fileStream);
-                    }
-                }
-                else
-                {
-                    Size newSize = dictionary[imageQuality];
-                    using (MemoryStream memoryStream = new MemoryStream())
-                    {
-                        camera.Snapshot().Save((Stream)memoryStream, ImageFormat.Jpeg);
-                        System.Drawing.Image original = System.Drawing.Image.FromStream((Stream)memoryStream);
-                        location.X = (int)Math.Round((Decimal)location.X * ((Decimal)newSize.Width / (Decimal)original.Width));
-                        location.Y = (int)Math.Round((Decimal)location.Y * ((Decimal)newSize.Height / (Decimal)original.Height));
-                        size.Width = (int)Math.Round((Decimal)size.Width * ((Decimal)newSize.Width / (Decimal)original.Width));
-                        size.Height = (int)Math.Round((Decimal)size.Height * ((Decimal)newSize.Height / (Decimal)original.Height));
-                        new Bitmap(original, newSize).Save(str, ImageFormat.Jpeg);
-                    }
-                }
+            //    Dictionary<ImageQuality, Size> dictionary = new Dictionary<ImageQuality, Size>()
+            //    {
+            //        {
+            //            ImageQuality._1080P,
+            //            new Size(1920, 1080)
+            //        },
+            //        {
+            //            ImageQuality._720P,
+            //            new Size(1280, 720)
+            //        },
+            //        {
+            //            ImageQuality._4CIF,
+            //            new Size(640, 480)
+            //        }
+            //    };
 
-                List<PlateDataBundle> plateList = new List<PlateDataBundle>();
-                plateList.Add(new PlateDataBundle()
-                {
-                    PlateNumber = data.PlateNumber,
-                    Rectangle = new Rectangle(location, size)
-                });
-                LogHelper.Log("Trigger From Etag");
+            //    if (imageQuality == ImageQuality.Default)
+            //    {
+            //        using (MemoryStream memoryStream = new MemoryStream())
+            //        {
+            //            camera.Snapshot().Save((Stream)memoryStream, ImageFormat.Jpeg);
+            //            using (FileStream fileStream = new FileStream(str, FileMode.Create, FileAccess.Write))
+            //                memoryStream.WriteTo((Stream)fileStream);
+            //        }
+            //    }
+            //    else
+            //    {
+            //        Size newSize = dictionary[imageQuality];
+            //        using (MemoryStream memoryStream = new MemoryStream())
+            //        {
+            //            camera.Snapshot().Save((Stream)memoryStream, ImageFormat.Jpeg);
+            //            System.Drawing.Image original = System.Drawing.Image.FromStream((Stream)memoryStream);
+            //            location.X = (int)Math.Round((Decimal)location.X * ((Decimal)newSize.Width / (Decimal)original.Width));
+            //            location.Y = (int)Math.Round((Decimal)location.Y * ((Decimal)newSize.Height / (Decimal)original.Height));
+            //            size.Width = (int)Math.Round((Decimal)size.Width * ((Decimal)newSize.Width / (Decimal)original.Width));
+            //            size.Height = (int)Math.Round((Decimal)size.Height * ((Decimal)newSize.Height / (Decimal)original.Height));
+            //            new Bitmap(original, newSize).Save(str, ImageFormat.Jpeg);
+            //        }
+            //    }
 
-                if (cvvm.LPRCallBack == null)
-                    return;
-                cvvm.LPRCallBack(cvvm, new LPRArgs(str, now, this.ChannelId, plateList));
-            }
+            //    List<PlateDataBundle> plateList = new List<PlateDataBundle>();
+            //    plateList.Add(new PlateDataBundle()
+            //    {
+            //        PlateNumber = data.PlateNumber,
+            //        Rectangle = new Rectangle(location, size)
+            //    });
+            //    LogHelper.Log("Trigger From Etag");
+
+            //    if (cvvm.LPRCallBack == null)
+            //        return;
+            //    cvvm.LPRCallBack(cvvm, new LPRArgs(str, now, this.ChannelId, plateList));
+            //}
         }
 
         private async void SetETagNumber(ChannelViewModel vm, string eTagNumber)
