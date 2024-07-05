@@ -172,7 +172,7 @@ namespace Illumine.LPR
         {
             this.ChannelViewModel.EtagReaderConnecting = true;
 
-            var cvvm = Container.Get<CameraViewerViewModel>(this.ChannelId);
+            var cvvm = this;
             var camera = Container.Get<Camera>(this.ChannelId);
 
             string etag = "0000100001";
