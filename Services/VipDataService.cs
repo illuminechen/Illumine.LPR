@@ -113,6 +113,12 @@ namespace Illumine.LPR
             }
         }
 
+        public static VipData TryGetEtagByPlate(string plate)
+        {
+            List<VipData> vipDatas = Container.Get<List<VipData>>().FindAll(x => x?.PlateNumber?.Equals(plate) == true);
+            return vipDatas.FirstOrDefault();
+        }
+
         public static VipData TryGetPlateByEtag(string etag)
         {
             List<VipData> vipDatas = Container.Get<List<VipData>>().FindAll(x => x?.ETagNumber?.Equals(etag) == true);

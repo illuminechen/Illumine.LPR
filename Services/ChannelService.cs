@@ -63,7 +63,7 @@ namespace Illumine.LPR
                         break;
                 }
             }
-            return str1 + str2;
+            return str1 + str2 + ChannelId;
         }
 
         public static EntryMode GetEntryMode(int ChannelId) => Container.Get<ChannelViewModel>(ChannelId).EntryMode;

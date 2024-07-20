@@ -157,12 +157,18 @@ namespace Illumine.LPR
                                 }
                                 break;
                             }
+                        case ETagMode.Hybrid:
                         case ETagMode.Or:
                             {
                                 if (msg.ParkingMode == ParkingMode.Vip)
-                                    msg.ParkingMode = VipDataService.CheckSpace(channelViewModel.EntryMode, vip);
+                                {
+                                    var vipdata = VipDataService.TryGetEtagByPlate(plateDataBundle.PlateNumber);
+                                    LogHelper.Log("TryGetEtagByPlate:" + vipdata.ETagNumber ?? "");
 
-                                if (msg.ParkingMode != ParkingMode.Vip)
+                                    msg.ParkingMode = VipDataService.CheckSpace(channelViewModel.EntryMode, vip);
+                                    msg.Tag = "eTagNumber=" + vipdata.ETagNumber + ";";
+                                }
+                                else 
                                 {
                                     string eTagNumber = "";
                                     while ((DateTime.Now - dt).TotalMilliseconds <= Container.Get<LPRSetting>().ETagWaitingTime)
@@ -176,6 +182,13 @@ namespace Illumine.LPR
                                         }
                                     }
 
+                                    if (channelViewModel.EtagNumber != "")
+                                    {
+                                        LogHelper.Log(eTagNumber);
+                                        eTagNumber = channelViewModel.EtagNumber;
+                                        channelViewModel.EtagNumber = "";
+                                    }
+
                                     if (eTagNumber != "")
                                     {
                                         msg.ParkingMode = VipDataService.CheckETagValid(eTagNumber, out var vip2);
@@ -183,12 +196,13 @@ namespace Illumine.LPR
                                         {
                                             vip = vip2;
                                         }
+                                        msg.Tag = "eTagNumber=" + eTagNumber + ";";
                                     }
                                 }
                                 break;
                             }
                     }
-                    if (mode != ETagMode.No)
+                    if (mode != ETagMode.No && msg.Tag == "")
                         msg.Tag = "eTagNumber=" + vip?.ETagNumber ?? "" + ";";
 
                     if (msg.ParkingMode == ParkingMode.Vip)

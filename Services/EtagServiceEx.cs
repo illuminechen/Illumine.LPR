@@ -63,11 +63,11 @@ namespace Illumine.LPR
                                             var camera = Container.Get<Camera>(channelDataModel.Id);
 
                                             string etag = sitecode.ToString("00000") + cardcode.ToString("00000");
-                                            SetETagNumber(chvm, etag);
 
                                             if (Container.Get<LPRSetting>().ETagMode != ETagMode.Hybrid)
                                                 return;
 
+                                            chvm.EtagNumber = etag;
                                             CameraServiceFactory.Create(chvm.CameraType).Trigger(cvvm.camId, cvvm.ChannelId);
 
                                             //var data = VipDataService.TryGetPlateByEtag(etag);
