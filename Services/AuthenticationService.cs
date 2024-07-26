@@ -203,7 +203,13 @@ namespace Illumine.LPR
                             }
                     }
                     if (mode != ETagMode.No && msg.Tag == "")
-                        msg.Tag = "eTagNumber=" + vip?.ETagNumber ?? "" + ";";
+                        msg.Tag = "eTagNumber=" + (vip?.ETagNumber ?? "") + ";";
+
+                    if (plateDataBundle.PlateNumber == Container.Get<LPRSetting>().NoPlate && (vip?.ETagNumber ?? "") == "")
+                    {
+                        LogHelper.Log("Etag入場必須為月租車。");
+                        return;
+                    }
 
                     if (msg.ParkingMode == ParkingMode.Vip)
                     {
