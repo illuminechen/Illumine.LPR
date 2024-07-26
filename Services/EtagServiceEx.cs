@@ -68,9 +68,10 @@ namespace Illumine.LPR
                                                 return;
                                             if (chvm == null)
                                                 return;
+
                                             chvm.EtagNumber = etag;
                                             CameraServiceFactory.Create(chvm.CameraType).Trigger(camera.camId, cvvm.ChannelId);
-
+                                            Thread.Sleep(3000);
                                             //var data = VipDataService.TryGetPlateByEtag(etag);
                                             //if (data != null)
                                             //{

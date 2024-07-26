@@ -168,14 +168,14 @@ namespace Illumine.LPR
                                     msg.ParkingMode = VipDataService.CheckSpace(channelViewModel.EntryMode, vip);
                                     msg.Tag = "eTagNumber=" + vipdata.ETagNumber + ";";
                                 }
-                                else 
+                                else
                                 {
                                     string eTagNumber = "";
                                     while ((DateTime.Now - dt).TotalMilliseconds <= Container.Get<LPRSetting>().ETagWaitingTime)
                                     {
                                         if (channelViewModel.EtagNumber != "")
                                         {
-                                            LogHelper.Log(eTagNumber);
+                                            LogHelper.Log("etag:" + eTagNumber);
                                             eTagNumber = channelViewModel.EtagNumber;
                                             channelViewModel.EtagNumber = "";
                                             break;
@@ -184,7 +184,7 @@ namespace Illumine.LPR
 
                                     if (channelViewModel.EtagNumber != "")
                                     {
-                                        LogHelper.Log(eTagNumber);
+                                        LogHelper.Log("etag:" + eTagNumber);
                                         eTagNumber = channelViewModel.EtagNumber;
                                         channelViewModel.EtagNumber = "";
                                     }
@@ -196,8 +196,8 @@ namespace Illumine.LPR
                                         {
                                             vip = vip2;
                                         }
-                                        msg.Tag = "eTagNumber=" + eTagNumber + ";";
                                     }
+                                    msg.Tag = "eTagNumber=" + eTagNumber + ";";
                                 }
                                 break;
                             }
