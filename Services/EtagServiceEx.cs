@@ -59,8 +59,8 @@ namespace Illumine.LPR
 
                                         Task.Run(() =>
                                         {
-                                            var cvvm = Container.Get<CameraViewerViewModel>(channelDataModel.Id);
-                                            var camera = Container.Get<Camera>(channelDataModel.Id);
+                                            var cvvm = Container.Get<ChannelViewerViewModel>(channelDataModel.Id);
+                                            var camera = cvvm.CameraViewModel;
 
                                             string etag = sitecode.ToString("00000") + cardcode.ToString("00000");
 
@@ -69,7 +69,7 @@ namespace Illumine.LPR
                                             if (chvm == null)
                                                 return;
                                             chvm.EtagNumber = etag;
-                                            CameraServiceFactory.Create(chvm.CameraType).Trigger(cvvm.camId, cvvm.ChannelId);
+                                            CameraServiceFactory.Create(chvm.CameraType).Trigger(camera.camId, cvvm.ChannelId);
 
                                             //var data = VipDataService.TryGetPlateByEtag(etag);
                                             //if (data != null)
