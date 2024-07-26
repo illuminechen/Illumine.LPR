@@ -66,7 +66,8 @@ namespace Illumine.LPR
 
                                             if (Container.Get<LPRSetting>().ETagMode != ETagMode.Hybrid)
                                                 return;
-
+                                            if (chvm == null)
+                                                return;
                                             chvm.EtagNumber = etag;
                                             CameraServiceFactory.Create(chvm.CameraType).Trigger(cvvm.camId, cvvm.ChannelId);
 
